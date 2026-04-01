@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1. GESTIÓN DE SESIÓN Y PERFIL
     const nombreUsuario = localStorage.getItem('usuarioNombre');
     const usuarioId = localStorage.getItem('usuarioID');
-    const idAdminAutorizado = "Jvv2k"; 
+    
+    // --- NUEVO ID DE ADMIN (UUID OFICIAL) ---
+    const idAdminAutorizado = "1f9570ae-38de-4e31-8ecd-9a372a4b20f8"; 
     
     if (!nombreUsuario || !usuarioId) {
         window.location.href = "login.html";
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         navImg.src = userDB.foto_url || 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
     }
 
-    // Mostrar panel admin si es el usuario autorizado
+    // --- LÓGICA PARA MOSTRAR EL BOTÓN DE ADMIN ---
     if (usuarioId === idAdminAutorizado) {
         const container = document.querySelector('.main-container');
         if (container) {
@@ -38,8 +40,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnAdmin.innerHTML = "⚙️ Panel de Control Admin";
             btnAdmin.className = "btn-admin-special"; 
             btnAdmin.style.marginBottom = "15px"; 
+            btnAdmin.style.cursor = "pointer"; // Para que se note que es clicable
             btnAdmin.onclick = () => window.location.href = 'admin.html';
-            container.insertBefore(btnAdmin, document.querySelector('.welcome-section'));
+            
+            // Insertamos el botón al inicio del contenedor principal
+            container.insertBefore(btnAdmin, container.firstChild);
         }
     }
 
@@ -54,14 +59,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (panelNoti.style.display === 'block') marcarComoLeidas(usuarioId);
         };
 
-        // Cerrar panel si haces clic afuera
         document.addEventListener('click', () => {
             panelNoti.style.display = 'none';
         });
         
         cargarNotificaciones(usuarioId);
         
-        // --- NUEVO: REALTIME PARA NOTIFICACIONES ---
+        // REALTIME PARA NOTIFICACIONES
         _supabase
             .channel('notificaciones-live')
             .on('postgres_changes', { 
@@ -70,8 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 table: 'notificaciones',
                 filter: `id_usuario=eq.${usuarioId}` 
             }, (payload) => {
-                console.log('Nueva notificación en tiempo real:', payload.new);
-                cargarNotificaciones(usuarioId); // Recarga la campana al recibir una noti
+                cargarNotificaciones(usuarioId); 
             })
             .subscribe();
     }
@@ -132,7 +135,6 @@ async function marcarComoLeidas(idUsuario) {
         .eq('id_usuario', idUsuario)
         .eq('leido', false);
     
-    // El badge desaparece tras unos segundos de abrir el panel
     setTimeout(() => {
         const badge = document.getElementById('noti_badge');
         if (badge) badge.style.display = 'none';
