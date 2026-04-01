@@ -8,37 +8,46 @@ const btnRegistrar = document.getElementById('btnRegistrar');
 
 if (btnRegistrar) {
     btnRegistrar.addEventListener('click', async () => {
-        const id = document.getElementById('id_input').value.trim();
-        const nombre = document.getElementById('nombre_input').value.trim();
+        // Obtenemos los valores de los inputs
+        const nombreUsuario = document.getElementById('id_input').value.trim(); // Este es el "apodo"
+        const nombreReal = document.getElementById('nombre_input').value.trim();
         const correo = document.getElementById('correo_input').value.trim();
         const pass = document.getElementById('pass_input').value.trim();
         
-        // Capturamos el archivo de la galería
         const inputFoto = document.getElementById('foto_input');
         const archivo = inputFoto.files[0];
 
-        if(!id || !nombre || !pass) {
-            alert("Por favor, llena los campos obligatorios (ID, Nombre y Contraseña).");
+        // Validaciones básicas
+        if(!correo || !nombreReal || !pass) {
+            alert("Por favor, llena los campos obligatorios (Correo, Nombre y Contraseña).");
             return;
         }
 
+        // --- PASO 1: REGISTRO EN AUTHENTICATION (Para que aparezcan en la lista de Users) ---
+        const { data: authData, error: authError } = await _supabase.auth.signUp({
+            email: correo,
+            password: pass,
+        });
+
+        if (authError) {
+            alert("Error en el registro de cuenta: " + authError.message);
+            return;
+        }
+
+        const usuarioIdOficial = authData.user.id; // Este es el ID (UUID) que genera Supabase
         let fotoUrlFinal = null;
 
-        // --- 1. SUBIDA DE LA FOTO AL STORAGE ---
+        // --- PASO 2: SUBIDA DE LA FOTO AL STORAGE ---
         if (archivo) {
-            // Creamos un nombre de archivo único usando el ID del usuario y la fecha
             const extension = archivo.name.split('.').pop();
-            const nombreArchivo = `${id}_${Date.now()}.${extension}`;
+            // Usamos el ID oficial para que la foto sea única
+            const nombreArchivo = `${usuarioIdOficial}_${Date.now()}.${extension}`;
 
             const { data: uploadData, error: uploadError } = await _supabase.storage
                 .from('fotos_perfil')
                 .upload(nombreArchivo, archivo);
 
-            if (uploadError) {
-                console.error("Error subiendo imagen:", uploadError);
-                alert("Hubo un error al subir tu foto, pero intentaremos registrarte sin ella.");
-            } else {
-                // Obtenemos la URL pública para guardarla en la tabla
+            if (!uploadError) {
                 const { data: publicUrlData } = _supabase.storage
                     .from('fotos_perfil')
                     .getPublicUrl(nombreArchivo);
@@ -47,26 +56,22 @@ if (btnRegistrar) {
             }
         }
 
-        // --- 2. REGISTRO EN LA TABLA USUARIOS ---
-        const { data, error } = await _supabase
+        // --- PASO 3: REGISTRO EN LA TABLA USUARIOS (Vinculamos Auth con Datos) ---
+        const { error: dbError } = await _supabase
             .from('usuarios')
             .insert([{ 
-                id: id, 
-                nombre: nombre, 
+                id: usuarioIdOficial, // IMPORTANTE: Guardamos el ID de Auth
+                nombre: nombreReal, 
                 correo: correo, 
-                foto_url: fotoUrlFinal, // URL de la imagen en el Storage
-                pass: pass 
-            }])
-            .select();
+                foto_url: fotoUrlFinal,
+                pass: pass // Opcional, ya que Auth ya la gestiona de forma segura
+            }]);
 
-        if (error) {
-            if (error.code === '23505') {
-                alert("⚠️ Ese ID ya existe. Intenta con otro nombre de usuario.");
-            } else {
-                alert("Error: " + error.message);
-            }
+        if (dbError) {
+            console.error("Error al guardar perfil:", dbError);
+            alert("Cuenta creada, pero hubo un error con tus datos de perfil.");
         } else {
-            alert("¡Registrado con éxito! Tu foto se ha guardado en la nube.");
+            alert("¡Registro exitoso! Ya eres parte de la Quiniela Pro.");
             window.location.href = "login.html"; 
         }
     });

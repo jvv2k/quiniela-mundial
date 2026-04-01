@@ -10,15 +10,16 @@
     <div class="container">
         <h1>⚽ Iniciar Sesión</h1>
         <div class="form-group">
-            <input type="text" id="id_login" placeholder="Tu ID">
-            <input type="password" id="pass_login" placeholder="Tu Contraseña">
+            <input type="email" id="id_login" placeholder="Tu correo electrónico" required>
+            
+            <input type="password" id="pass_login" placeholder="Tu Contraseña" required>
             
             <button id="btnLogin">Entrar</button>
         </div>
         <p class="link-text">¿No tienes cuenta? <a href="index.html">Regístrate aquí</a></p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="login.js"></script>
 </body>
 </html>

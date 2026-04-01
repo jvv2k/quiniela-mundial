@@ -12,16 +12,18 @@
         <p>¡Únete a la familia y empieza a ganar!</p>
 
         <div class="form-group">
-            <input type="text" id="id_input" placeholder="Crea tu ID (ej: Jvv2k)" required>
+            <input type="text" id="id_input" placeholder="Tu Apodo (ej: Jvv2k)" required>
+            
             <input type="text" id="nombre_input" placeholder="Nombre completo" required>
-            <input type="email" id="correo_input" placeholder="Correo electrónico">
+            
+            <input type="email" id="correo_input" placeholder="Correo electrónico (Obligatorio)" required>
             
             <label for="foto_input" style="color: #00e676; font-size: 0.8rem; display: block; margin-top: 10px; text-align: left; padding-left: 5px;">
                 Sube tu foto de perfil:
             </label>
             <input type="file" id="foto_input" accept="image/*" style="padding: 10px; background: #252525; border: 1px solid #333; margin-top: 5px;">
             
-            <input type="password" id="pass_input" placeholder="Contraseña" required>
+            <input type="password" id="pass_input" placeholder="Contraseña (Mínimo 6 caracteres)" required minlength="6">
             
             <button id="btnRegistrar">Registrarse</button>
         </div>
@@ -29,7 +31,7 @@
         <p class="link-text">¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
 </body>
 </html>

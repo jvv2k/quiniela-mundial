@@ -13,36 +13,48 @@ const btnLogin = document.getElementById('btnLogin');
 
 if (btnLogin) {
     btnLogin.addEventListener('click', async () => {
-        const id = document.getElementById('id_login').value;
-        const pass = document.getElementById('pass_login').value;
+        // Ahora usamos el CORREO para el login oficial
+        const email = document.getElementById('id_login').value.trim(); 
+        const pass = document.getElementById('pass_login').value.trim();
 
-        if (!id || !pass) {
-            alert("Por favor, ingresa tu ID y contraseña.");
+        if (!email || !pass) {
+            alert("Por favor, ingresa tu correo y contraseña.");
             return;
         }
 
-        // 2. Buscamos al usuario (traemos todo, incluyendo foto_url)
-        const { data, error } = await _supabase
+        // --- PASO 1: LOGIN OFICIAL EN SUPABASE AUTH ---
+        const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
+            email: email,
+            password: pass
+        });
+
+        if (authError) {
+            alert("Error: " + authError.message); // Nos dirá si la clave está mal o el usuario no existe
+            return;
+        }
+
+        const userAuthId = authData.user.id; // El ID único (UUID)
+
+        // --- PASO 2: BUSCAR SUS DATOS EXTRA EN LA TABLA 'USUARIOS' ---
+        const { data: usuarioDB, error: dbError } = await _supabase
             .from('usuarios')
             .select('*')
-            .eq('id', id)
+            .eq('id', userAuthId)
             .single();
 
-        if (error || !data) {
-            alert("Usuario no encontrado. Revisa tu ID.");
+        if (dbError || !usuarioDB) {
+            console.error("Error trayendo datos de perfil:", dbError);
+            // Si por algo falla el perfil, igual dejamos pasar porque la cuenta es válida
+            localStorage.setItem('usuarioID', userAuthId);
+            window.location.href = "quiniela.html";
         } else {
-            // 3. Verificamos contra la columna 'pass' de tu captura
-            if (data.pass === pass) { 
-                // GUARDAR DATOS CLAVE
-                localStorage.setItem('usuarioNombre', data.nombre);
-                localStorage.setItem('usuarioID', data.id); 
-                localStorage.setItem('usuarioFoto', data.foto_url || ''); // Guardamos la foto
+            // GUARDAR DATOS CLAVE EN EL NAVEGADOR
+            localStorage.setItem('usuarioNombre', usuarioDB.nombre);
+            localStorage.setItem('usuarioID', usuarioDB.id); 
+            localStorage.setItem('usuarioFoto', usuarioDB.foto_url || '');
 
-                alert("¡Bienvenido, " + data.nombre + "!");
-                window.location.href = "quiniela.html";
-            } else {
-                alert("Contraseña incorrecta.");
-            }
+            alert("¡Bienvenido, " + usuarioDB.nombre + "!");
+            window.location.href = "quiniela.html";
         }
     });
 }
