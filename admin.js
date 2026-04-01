@@ -3,7 +3,7 @@ const supabaseUrl = 'https://nllmhovvzabuefafkgts.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sbG1ob3Z2emFidWVmYWZrZ3RzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MDQwOTgsImV4cCI6MjA5MDA4MDA5OH0.G6KXr1RkzHgFRn7uHC14t5IdazTT3aKaJIbaWiwKU9c';
 const _supabase = createClient(supabaseUrl, supabaseKey);
 
-const idAdminAutorizado = "Jvv2k";
+const idAdminAutorizado = "1f9570ae-38de-4e31-8ecd-9a372a4b20f8";
 const usuarioId = localStorage.getItem('usuarioID');
 
 document.addEventListener('DOMContentLoaded', () => {
