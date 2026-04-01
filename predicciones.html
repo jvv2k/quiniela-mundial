@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiniela Pro - Mis Predicciones</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <header class="welcome-section">
+            <h1>🗳️ Realiza tu Voto</h1>
+            <div id="mensaje_regla" class="alert-info">
+                ⚠️ Recuerda: Una vez que realices tu predicción no podrás cambiarla. ¡Vota con sabiduría!
+            </div>
+        </header>
+
+        <div class="filter-container">
+            <label>Selecciona la Jornada:</label>
+            <div class="jornada-tabs">
+                <button class="tab-btn active" onclick="cambiarJornada(1, this)">Jornada 1</button>
+                <button class="tab-btn" onclick="cambiarJornada(2, this)">Jornada 2</button>
+                <button class="tab-btn" onclick="cambiarJornada(3, this)">Jornada 3</button>
+            </div>
+        </div>
+
+        <div id="contenedor_partidos" class="matches-grid">
+            <p>Cargando partidos disponibles...</p>
+        </div>
+
+        <button onclick="window.location.href='quiniela.html'" class="btn-secondary">Volver al Menú</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="predicciones.js"></script>
+</body>
+</html>

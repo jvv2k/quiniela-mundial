@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiniela Pro - Inicio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div id="admin_container"></div>
+
+        <header class="welcome-section" style="text-align: center;">
+            <div class="profile-header" onclick="window.location.href='perfil.html'" style="cursor: pointer; display: inline-block;">
+                <img id="nav_profile_img" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="main-avatar">
+                <h1 id="welcome_user">Hola, Usuario</h1>
+            </div>
+            <p>¡Bienvenido a tu Quiniela del Mundial 2026!</p>
+        </header>
+
+        <div class="menu-grid">
+            <div class="menu-card" onclick="window.location.href='predicciones.html'">
+                <span class="icon">🗳️</span>
+                <h3>Mis Predicciones</h3>
+                <p>Vota por tus favoritos</p>
+            </div>
+
+            <div class="menu-card" onclick="window.location.href='perfil.html'">
+                <span class="icon">👤</span>
+                <h3>Mi Perfil</h3>
+                <p>Historial y Jornadas</p>
+            </div>
+
+            <div class="menu-card" onclick="window.location.href='podio.html'">
+                <span class="icon">🏆</span>
+                <h3>Podio</h3>
+                <p>Top 3 y Amigos</p>
+            </div>
+
+            <div class="menu-card" onclick="window.location.href='reglas.html'">
+                <span class="icon">📜</span>
+                <h3>Reglas</h3>
+                <p>¿Cómo jugar?</p>
+            </div>
+        </div>
+        </section>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button id="btnCerrarSesion" class="btn-secondary">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="quiniela.js"></script>
+    <div class="notification-container" style="position: relative; display: inline-block;">
+    <button id="btn_notificaciones" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; padding: 10px;">
+        🔔
+        <span id="noti_badge" style="display: none; position: absolute; top: 5px; right: 5px; background: #ff5252; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; font-weight: bold; align-items: center; justify-content: center;">0</span>
+    </button>
+    
+    <div id="noti_panel" style="display: none; position: absolute; right: 0; top: 50px; width: 280px; background: #1e1e1e; border: 1px solid #333; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 1000; padding: 10px; max-height: 400px; overflow-y: auto;">
+        <h4 style="margin: 0 0 10px 0; font-size: 0.9rem; color: #00e676; border-bottom: 1px solid #333; padding-bottom: 5px;">Notificaciones</h4>
+        <div id="lista_notificaciones">
+            <p style="font-size: 0.8rem; color: #666; text-align: center;">No tienes notificaciones nuevas.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

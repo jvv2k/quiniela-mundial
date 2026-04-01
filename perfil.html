@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Quiniela Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <header class="welcome-section">
+            <div id="user_avatar_container" style="margin-bottom: 20px;">
+                <img id="profile_img" src="https://via.placeholder.com/120?text=..." class="profile-avatar">
+            </div>
+
+            <h1 id="user_name">Mi Perfil</h1>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span id="total_puntos">0</span>
+                    <p>Puntos Totales</p>
+                </div>
+            </div>
+        </header>
+
+        <section class="history-section">
+            <h3>Mis Predicciones Realizadas</h3>
+            <div id="lista_historial" class="history-grid">
+                <p>Cargando tu historial...</p>
+            </div>
+        </section>
+
+        <button onclick="window.location.href='quiniela.html'" class="btn-secondary">Volver al Menú</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="perfil.js"></script>
+</body>
+</html>

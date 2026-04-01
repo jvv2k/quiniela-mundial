@@ -1,0 +1,425 @@
+/* 1. CONFIGURACIÓN GENERAL */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+h1 { margin-bottom: 20px; color: #00e676; text-align: center; }
+
+/* 2. CONTENEDORES PRINCIPALES */
+.container {
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+.main-container {
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* 3. IDENTIDAD Y AVATARES */
+.main-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #00e676;
+    margin-bottom: 15px;
+    box-shadow: 0 0 20px rgba(0, 230, 118, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-header:hover .main-avatar {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 230, 118, 0.4);
+}
+
+.profile-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #00e676;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+/* 4. MENÚ DE TARJETAS */
+.menu-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.menu-card {
+    background-color: #1e1e1e;
+    padding: 20px;
+    width: 160px;
+    border-radius: 15px;
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    border-color: #00e676;
+}
+
+.menu-card .icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+.menu-card h3 { margin: 10px 0; color: #00e676; font-size: 1.1rem; }
+.menu-card p { font-size: 0.8rem; color: #bbb; }
+
+/* 5. FORMULARIOS Y BOTONES */
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background-color: #252525;
+    color: white;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #00e676;
+    color: #121212;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover:not(:disabled) { background-color: #00c853; }
+
+.btn-secondary {
+    margin-top: 30px;
+    background-color: transparent;
+    color: #ff5252;
+    border: 1px solid #ff5252;
+    width: auto;
+    padding: 10px 30px;
+}
+
+.btn-secondary:hover { background-color: #ff5252; color: white; }
+
+.btn-admin-special {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 25px;
+    background-color: transparent;
+    color: #ffd700;
+    border: 1px dashed #ffd700;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    width: auto;
+}
+
+/* 6. HISTORIAL, PODIO Y GRID DE PARTIDOS */
+.matches-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.history-card {
+    background-color: #252525;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid #444;
+    margin-bottom: 10px;
+}
+
+.voto-acertado { border-left-color: #00e676 !important; background-color: rgba(0,230,118,0.05); }
+.voto-fallado { border-left-color: #ff5252 !important; background-color: rgba(255,82,82,0.05); }
+
+.podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 20px; height: 200px; }
+.circle { 
+    width: 80px; 
+    height: 80px; 
+    border-radius: 50%; 
+    background: #1e1e1e; 
+    border: 4px solid #444; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    overflow: hidden; 
+}
+
+.circle img { width: 100%; height: 100%; object-fit: cover; }
+.rank-1 .circle { border-color: #ffd700; width: 110px; height: 110px; }
+
+/* 7. NAVEGACIÓN MINI */
+.user-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    border: 1px solid #333;
+}
+
+.user-info-mini { display: flex; align-items: center; gap: 10px; }
+.nav-avatar { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #00e676; object-fit: cover; }
+
+/* 8. FILTROS DE PREDICCIONES */
+.filter-container {
+    margin: 25px 0;
+    text-align: center;
+}
+
+.filter-container label {
+    display: block;
+    margin-bottom: 12px;
+    color: #888;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+.jornada-tabs {
+    display: inline-flex;
+    background: #1e1e1e;
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    gap: 5px;
+}
+
+.tab-btn {
+    width: auto;
+    padding: 8px 20px;
+    background: transparent;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn.active {
+    background: #00e676;
+    color: #121212;
+}
+
+.alert-info {
+    background: rgba(0, 230, 118, 0.1);
+    border: 1px solid #00e676;
+    padding: 15px;
+    border-radius: 8px;
+    color: #00e676;
+    font-size: 0.9rem;
+    margin-top: 15px;
+}
+
+/* --- 9. PANEL DE ADMINISTRADOR (NUEVO) --- */
+.btn-admin-action {
+    padding: 10px 5px !important;
+    font-size: 0.75rem !important;
+    flex: 1;
+    margin-top: 0 !important;
+    min-width: 80px;
+    border-radius: 4px;
+    background-color: #00e676;
+    color: #121212;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-admin-action:hover {
+    background-color: #00c853;
+    transform: translateY(-2px);
+}
+
+.btn-admin-action:active {
+    transform: translateY(0);
+}
+
+/* Estilo para el ID del partido en el Admin */
+.partido-id-badge {
+    background: #333;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    color: #888;
+}
+/* ... (Todo tu código anterior se mantiene igual) ... */
+
+/* 6. MODIFICACIÓN EN PODIO (Para que las fotos se vean perfectas) */
+.podium-container { 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-end; 
+    gap: 15px; 
+    height: 220px; 
+    margin-bottom: 20px;
+}
+
+.podium-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circle { 
+    width: 85px; 
+    height: 85px; 
+    border-radius: 50%; 
+    background: #1e1e1e; 
+    border: 4px solid #444; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.circle:hover { transform: scale(1.1); }
+
+.rank-1 .circle { border-color: #ffd700; width: 115px; height: 115px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+.rank-2 .circle { border-color: #c0c0c0; }
+.rank-3 .circle { border-color: #cd7f32; }
+
+.podium-name { font-weight: bold; color: white; margin-top: 10px; font-size: 0.9rem; }
+.podium-points { color: #00e676; font-size: 0.8rem; font-weight: bold; }
+
+/* 10. FEEDBACK DE RESULTADOS (SEMÁFORO DE AMIGOS) */
+
+/* Contenedor de la tarjeta de resultado */
+.result-card {
+    background-color: #252525;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: background 0.3s;
+}
+
+/* Clases dinámicas aplicadas por JS */
+.res-correct { 
+    border-left: 5px solid #00e676 !important; 
+    background: rgba(0, 230, 118, 0.08) !important; 
+}
+
+.res-incorrect { 
+    border-left: 5px solid #ff5252 !important; 
+    background: rgba(255, 82, 82, 0.08) !important; 
+}
+
+.res-pending { 
+    border-left: 5px solid #777 !important; 
+    background: rgba(255, 255, 255, 0.03) !important; 
+}
+
+/* Detalles de los equipos y badge */
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-teams {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.result-badge {
+    font-size: 1.2rem;
+}
+
+.result-footer {
+    font-size: 0.75rem;
+    color: #aaa;
+    display: flex;
+    justify-content: space-between;
+}
+
+.result-footer b {
+    color: #fff;
+}
+
+/* Ajuste para el input de búsqueda en el podio */
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    margin-bottom: 0; /* Quita el margen de abajo para que alinee con el botón */
+}
+
+/* Scrollbar personalizada para que el buscador no se vea feo si hay muchos resultados */
+#resultados_busqueda {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#resultados_busqueda::-webkit-scrollbar {
+    width: 6px;
+}
+
+#resultados_busqueda::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+}
+/* Tarjeta base */
+.history-card {
+    background-color: #1e1e1e;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    border-left: 6px solid #444; /* Borde gris inicial */
+}
+
+/* Verdes para aciertos */
+.voto-acertado {
+    border-left-color: #00e676 !important;
+    background: linear-gradient(90deg, rgba(0, 230, 118, 0.1) 0%, rgba(30, 30, 30, 1) 100%);
+}
+.voto-acertado .puntos-badge { color: #00e676; font-weight: bold; }
+
+/* Rojos para fallos */
+.voto-fallado {
+    border-left-color: #ff5252 !important;
+    background: linear-gradient(90deg, rgba(255, 82, 82, 0.1) 0%, rgba(30, 30, 30, 1) 100%);
+}
+.voto-fallado .puntos-badge { color: #ff5252; font-weight: bold; }
+
+/* Gris para pendientes */
+.voto-pendiente {
+    border-left-color: #777;
+    opacity: 0.8;
+}

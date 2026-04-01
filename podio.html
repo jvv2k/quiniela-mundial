@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podio de Ganadores - Quiniela</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <h1>🏆 Top 3 - Líderes</h1>
+        
+        <div class="podium-container" id="top_tres">
+            </div>
+
+        <hr style="border: 0.5px solid #333; margin: 30px 0;">
+
+        <div class="search-section">
+            <h3>🔍 Busca a tus amigos</h3>
+            <div class="search-box">
+                <input type="text" id="search_input" placeholder="Nombre del usuario...">
+                <button onclick="buscarAmigo()" class="btn-primary">Buscar</button>
+            </div>
+            <div id="resultados_busqueda" class="matches-grid"></div>
+        </div>
+
+        <button onclick="window.location.href='quiniela.html'" class="btn-secondary">Volver al Menú</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="podio.js"></script>
+</body>
+</html>

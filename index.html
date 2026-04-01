@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiniela Pro - Registro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>⚽ Registro Quiniela</h1>
+        <p>¡Únete a la familia y empieza a ganar!</p>
+
+        <div class="form-group">
+            <input type="text" id="id_input" placeholder="Crea tu ID (ej: Jvv2k)" required>
+            <input type="text" id="nombre_input" placeholder="Nombre completo" required>
+            <input type="email" id="correo_input" placeholder="Correo electrónico">
+            
+            <label for="foto_input" style="color: #00e676; font-size: 0.8rem; display: block; margin-top: 10px; text-align: left; padding-left: 5px;">
+                Sube tu foto de perfil:
+            </label>
+            <input type="file" id="foto_input" accept="image/*" style="padding: 10px; background: #252525; border: 1px solid #333; margin-top: 5px;">
+            
+            <input type="password" id="pass_input" placeholder="Contraseña" required>
+            
+            <button id="btnRegistrar">Registrarse</button>
+        </div>
+        
+        <p class="link-text">¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
