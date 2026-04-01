@@ -7,7 +7,9 @@ const idAdminAutorizado = "1f9570ae-38de-4e31-8ecd-9a372a4b20f8";
 const usuarioId = localStorage.getItem('usuarioID');
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("ID detectado:", usuarioId); // Esto te ayudará a debugear
     if (usuarioId !== idAdminAutorizado) {
+        // ... el resto de tu código
         alert("Acceso denegado.");
         window.location.href = 'quiniela.html';
         return;
