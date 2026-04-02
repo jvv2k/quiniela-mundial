@@ -6,20 +6,36 @@ const _supabase = createClient(supabaseUrl, supabaseKey);
 const idAdminAutorizado = "1f9570ae-38de-4e31-8ecd-9a372a4b20f8";
 const usuarioId = localStorage.getItem('usuarioID');
 
+// Variable global para controlar la jornada visible en el panel
+let jornadaActualAdmin = 1;
+
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("ID detectado:", usuarioId); // Esto te ayudará a debugear
+    console.log("ID detectado:", usuarioId);
     if (usuarioId !== idAdminAutorizado) {
-        // ... el resto de tu código
         alert("Acceso denegado.");
         window.location.href = 'quiniela.html';
         return;
     }
+    
+    // Carga inicial (Jornada 1)
     cargarPartidosAdmin(1);
 });
 
+// Función para que los botones del HTML cambien la jornada
+async function cambiarJornadaAdmin(numJornada) {
+    jornadaActualAdmin = numJornada;
+    
+    // Opcional: Feedback visual en botones
+    const botones = document.querySelectorAll('.btn-jornada-admin');
+    botones.forEach(btn => btn.style.opacity = '0.6');
+    // Si encuentras el botón clickeado, podrías resaltarlo
+    
+    await cargarPartidosAdmin(numJornada);
+}
+
 async function cargarPartidosAdmin(jornada) {
     const contenedor = document.getElementById('lista_partidos_admin');
-    contenedor.innerHTML = '<p style="text-align:center;">Cargando partidos...</p>';
+    contenedor.innerHTML = `<p style="text-align:center;">Cargando partidos de la Jornada ${jornada}...</p>`;
 
     const { data: partidos, error } = await _supabase
         .from('partidos')
@@ -27,7 +43,15 @@ async function cargarPartidosAdmin(jornada) {
         .eq('jornada', jornada)
         .order('id', { ascending: true });
 
-    if (error) return;
+    if (error) {
+        contenedor.innerHTML = '<p>Error al conectar con la base de datos.</p>';
+        return;
+    }
+
+    if (partidos.length === 0) {
+        contenedor.innerHTML = `<p style="text-align:center; color:#888;">No hay partidos registrados para la Jornada ${jornada}.</p>`;
+        return;
+    }
 
     contenedor.innerHTML = '';
     partidos.forEach(partido => {
@@ -35,6 +59,7 @@ async function cargarPartidosAdmin(jornada) {
         card.className = 'history-card';
         card.style.flexDirection = 'column';
         card.style.padding = '20px';
+        card.style.marginBottom = '15px';
         
         card.innerHTML = `
             <div style="display:flex; justify-content: space-between; width:100%; align-items:center; margin-bottom: 10px;">
@@ -57,10 +82,8 @@ async function definirResultado(idPartido, resultadoReal) {
     if (!confirmacion) return;
 
     try {
-        // 0. Tomar "foto" del ranking antes de actualizar
         const rankingAnterior = await obtenerRankingCalculado();
 
-        // 1. Buscamos a los que acertaron (traemos id_usuario para notificar)
         const { data: acertados, error: errorBusqueda } = await _supabase
             .from('predicciones')
             .select('llave, id_usuario') 
@@ -72,7 +95,6 @@ async function definirResultado(idPartido, resultadoReal) {
         if (acertados && acertados.length > 0) {
             const llavesParaPuntos = acertados.map(p => p.llave);
             
-            // 2. Repartir puntos
             const { error: errorUpdate } = await _supabase
                 .from('predicciones')
                 .update({ puntos_ganados: 3 }) 
@@ -80,7 +102,6 @@ async function definirResultado(idPartido, resultadoReal) {
 
             if (errorUpdate) throw errorUpdate;
 
-            // 3. Notificar a cada ganador individualmente
             for (const ganador of acertados) {
                 await _supabase.from('notificaciones').insert([
                     { 
@@ -91,23 +112,21 @@ async function definirResultado(idPartido, resultadoReal) {
                 ]);
             }
 
-            // 4. Procesar cambios de posición (Subidas/Bajadas)
             const rankingNuevo = await obtenerRankingCalculado();
             await compararYNotificarRanking(rankingAnterior, rankingNuevo);
 
             alert(`✅ Éxito: Puntos repartidos y usuarios notificados.`);
         } else {
-            alert("Nadie acertó.");
+            alert("Resultado guardado. Nadie acertó puntos en este partido.");
         }
         
     } catch (err) {
         console.error(err);
-        alert("Error: " + err.message);
+        alert("Error al procesar puntos: " + err.message);
     }
 }
 
 // --- LÓGICA DE RANKING ---
-
 async function obtenerRankingCalculado() {
     const { data: usuarios, error } = await _supabase
         .from('usuarios')
@@ -124,11 +143,12 @@ async function obtenerRankingCalculado() {
 }
 
 async function compararYNotificarRanking(anterior, nuevo) {
-    nuevo.forEach(async (usuario, nuevoIndice) => {
-        const puestoNuevo = nuevoIndice + 1;
+    for (let i = 0; i < nuevo.length; i++) {
+        const usuario = nuevo[i];
+        const puestoNuevo = i + 1;
         const indexAnterior = anterior.findIndex(u => u.id === usuario.id);
         
-        if (indexAnterior === -1) return; // Usuario nuevo
+        if (indexAnterior === -1) continue; 
         
         const puestoAnterior = indexAnterior + 1;
         let mensaje = "";
@@ -144,5 +164,5 @@ async function compararYNotificarRanking(anterior, nuevo) {
                 { id_usuario: usuario.id, mensaje: mensaje, leido: false }
             ]);
         }
-    });
+    }
 }

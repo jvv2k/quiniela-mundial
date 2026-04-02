@@ -2,18 +2,59 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control - Admin</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos rápidos para que los botones de jornada se vean bien */
+        .jornadas-nav-admin {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+        }
+        .btn-jornada-admin {
+            background: #222;
+            color: white;
+            border: 1px solid #444;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        .btn-jornada-admin:hover {
+            background: #333;
+            border-color: #00e676;
+        }
+        /* Clase para resaltar la jornada activa (se puede manejar por JS) */
+        .btn-jornada-admin.active {
+            background: #00e676;
+            color: #000;
+            border-color: #00e676;
+        }
+    </style>
 </head>
 <body>
     <div class="main-container">
         <h1>⚙️ Panel de Resultados</h1>
-        <p>Selecciona el ganador para repartir puntos:</p>
+        <p style="text-align: center; color: #888;">Selecciona la jornada y el ganador para repartir puntos:</p>
+
+        <div class="jornadas-nav-admin">
+            <button onclick="cambiarJornadaAdmin(1)" class="btn-jornada-admin">Jornada 1</button>
+            <button onclick="cambiarJornadaAdmin(2)" class="btn-jornada-admin">Jornada 2</button>
+            <button onclick="cambiarJornadaAdmin(3)" class="btn-jornada-admin">Jornada 3</button>
+        </div>
         
         <div id="lista_partidos_admin" class="matches-grid">
             </div>
 
-        <button onclick="window.location.href='quiniela.html'" class="btn-secondary">Volver al Menú</button>
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="window.location.href='quiniela.html'" class="btn-secondary">Volver al Menú</button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
